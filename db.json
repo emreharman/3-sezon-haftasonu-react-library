@@ -1,0 +1,39 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "name": "Yaban",
+      "author": "Yakup Kadri Karaosmanoğlu",
+      "isbn": "11111111111",
+      "categoryId": 1
+    },
+    {
+      "id": 2,
+      "name": "Yeraltından Notlar",
+      "author": "Dostoyevski",
+      "isbn": "11111111112",
+      "categoryId": 2
+    },
+    {
+      "id": 3,
+      "name": "Denemeler",
+      "author": "Montaigne",
+      "isbn": "11111111113",
+      "categoryId": 3
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Roman"
+    },
+    {
+      "id": 2,
+      "name": "Hikaye"
+    },
+    {
+      "id": 3,
+      "name": "Deneme"
+    }
+  ]
+}
