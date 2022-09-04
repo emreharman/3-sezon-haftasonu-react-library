@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
 
@@ -14,9 +15,7 @@ const ListBooks = (props) => {
         axios
           .get("http://localhost:3004/categories")
           .then((resCat) => {
-            setTimeout(() => {
-              setCategories(resCat.data);
-            }, 5000);
+            setCategories(resCat.data);
           })
           .catch((err) => console.log("categories err", err));
       })
@@ -27,6 +26,11 @@ const ListBooks = (props) => {
   }
   return (
     <div className="container my-5">
+      <div className="my-3 d-flex justify-content-end">
+        <Link to="/add-book" className="btn btn-primary">
+          Kitap Ekle
+        </Link>
+      </div>
       <table className="table">
         <thead>
           <tr>
