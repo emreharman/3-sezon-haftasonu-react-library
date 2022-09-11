@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
+import Modal from "../components/Modal";
 
 const ListBooks = (props) => {
   const [books, setBooks] = useState(null);
   const [categories, setCategories] = useState(null);
   const [didUpdate, setDidUpdate] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [silinecekKitap, setSilinecekKitap] = useState(null);
   useEffect(() => {
     axios
       .get("http://localhost:3004/books")
@@ -29,6 +32,7 @@ const ListBooks = (props) => {
       .then((res) => {
         console.log("delete res", res);
         setDidUpdate(!didUpdate);
+        setShowModal(false);
       })
       .catch((err) => console.log(err));
   };
@@ -62,7 +66,7 @@ const ListBooks = (props) => {
               (cat) => cat.id === book.categoryId
             );
             return (
-              <tr>
+              <tr key={book.id}>
                 <td>{book.name}</td>
                 <td>{book.author}</td>
                 <td>{category.name}</td>
@@ -74,10 +78,20 @@ const ListBooks = (props) => {
                     <button
                       type="button"
                       className="btn btn-outline-danger btn-sm"
-                      onClick={() => kitapSil(book.id)}
+                      onClick={() => {
+                        setShowModal(true);
+                        //kitapSil(book.id);
+                        setSilinecekKitap(book.id);
+                      }}
                     >
                       Delete
                     </button>
+                    <Link
+                      to={`edit-book/${book.id}`}
+                      className="btn btn-sm btn-outline-secondary"
+                    >
+                      Edit
+                    </Link>
                   </div>
                 </td>
               </tr>
@@ -85,6 +99,14 @@ const ListBooks = (props) => {
           })}
         </tbody>
       </table>
+      {showModal === true && (
+        <Modal
+          aciklama="Silemk istediğinize emin misiniz?"
+          title={"Silme İşlemi"}
+          yapilmasiGerekenIs={() => kitapSil(silinecekKitap)}
+          setShowModal={setShowModal}
+        />
+      )}
     </div>
   );
 };
