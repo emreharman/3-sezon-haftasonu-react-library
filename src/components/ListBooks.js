@@ -3,13 +3,18 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
 import Modal from "../components/Modal";
+import { useSelector } from "react-redux";
 
 const ListBooks = (props) => {
+  const uygulamaninGenelStatei = useSelector((state) => state);
+  console.log(uygulamaninGenelStatei);
+
   const [books, setBooks] = useState(null);
   const [categories, setCategories] = useState(null);
   const [didUpdate, setDidUpdate] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [silinecekKitap, setSilinecekKitap] = useState(null);
+  const [silinecekKitapIsmi, setSilinecekKitapIsmi] = useState("");
   useEffect(() => {
     axios
       .get("http://localhost:3004/books")
@@ -82,6 +87,7 @@ const ListBooks = (props) => {
                         setShowModal(true);
                         //kitapSil(book.id);
                         setSilinecekKitap(book.id);
+                        setSilinecekKitapIsmi(book.name);
                       }}
                     >
                       Delete
@@ -101,10 +107,10 @@ const ListBooks = (props) => {
       </table>
       {showModal === true && (
         <Modal
-          aciklama="Silemk istediğinize emin misiniz?"
-          title={"Silme İşlemi"}
-          yapilmasiGerekenIs={() => kitapSil(silinecekKitap)}
-          setShowModal={setShowModal}
+          aciklama={`Silmek istediğinize emin misiniz?`}
+          title={silinecekKitapIsmi}
+          onConfirm={() => kitapSil(silinecekKitap)}
+          onCancel={() => setShowModal(false)}
         />
       )}
     </div>

@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 
 const Modal = (props) => {
-  const { setShowModal, yapilmasiGerekenIs, title, aciklama } = props;
+  const uygulamaStatei = useSelector((state) => state);
+  console.log("modaldayım", uygulamaStatei);
+  const { onCancel, onConfirm, title, aciklama } = props;
   return (
-    <div
+    <button
+      onClick={onCancel}
       style={{
         position: "absolute",
         top: 0,
@@ -14,6 +18,7 @@ const Modal = (props) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        cursor: "default",
       }}
     >
       <div
@@ -25,23 +30,23 @@ const Modal = (props) => {
         }}
       >
         <h1 className="text-center">{title}</h1>
-        <p>{aciklama}</p>
+        <p className="text-center">{aciklama}</p>
         <div className="d-flex justify-content-center">
           <button
-            onClick={() => setShowModal(false)}
+            onClick={onCancel}
             className="btn btn-sm btn-outline-danger mx-3"
           >
             Kapat
           </button>
           <button
-            onClick={yapilmasiGerekenIs}
+            onClick={onConfirm}
             className="btn btn-sm btn-outline-primary"
           >
             Onayla
           </button>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
