@@ -30,24 +30,10 @@
     },
     {
       "id": 1663445754196,
-      "name": "dfgdf",
-      "author": "gjgh",
-      "isbn": "",
-      "categoryId": "3"
-    },
-    {
-      "id": 1663446069262,
-      "name": "abc",
-      "author": "abc",
-      "isbn": "",
-      "categoryId": "1"
-    },
-    {
-      "id": 1663446170369,
-      "name": "xyz",
-      "author": "xyz",
-      "isbn": "",
-      "categoryId": "2"
+      "name": "dfgdf 1",
+      "author": "gjgh deneme",
+      "categoryId": "1",
+      "isbn": ""
     }
   ],
   "categories": [

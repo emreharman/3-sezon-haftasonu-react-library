@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
 import Modal from "../components/Modal";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const ListBooks = (props) => {
+  const dispatch = useDispatch();
   const { categoriesState, booksState } = useSelector((state) => state);
   console.log(categoriesState);
   console.log("booksState", booksState);
@@ -37,6 +38,7 @@ const ListBooks = (props) => {
       .delete(`http://localhost:3004/books/${id}`)
       .then((res) => {
         console.log("delete res", res);
+        dispatch({ type: "DELETE_BOOK", payload: id });
         setDidUpdate(!didUpdate);
         setShowModal(false);
       })
