@@ -1,15 +1,32 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
+import Modal from "./Modal";
+import axios from "axios";
 
 const ListCategories = () => {
+  const dispatch = useDispatch();
   const { categoriesState } = useSelector((state) => state);
   console.log("catState", categoriesState);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [silinecekCategory, setSilinecekCategory] = useState(null);
+  const [silinecekCategoryName, setSilinecekCategoryName] = useState("");
 
   useEffect(() => {
     document.title = "Kitaplık - Kategoriler";
   }, []);
+
+  const categorySil = (id) => {
+    axios
+      .delete(`http://localhost:3004/categories/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        dispatch({ type: "DELETE_CATEGORY", payload: id });
+      })
+      .catch((err) => console.log("deleteCategoryErr", err));
+  };
 
   if (categoriesState.success !== true) {
     return <Loading />;
@@ -43,10 +60,10 @@ const ListCategories = () => {
                       type="button"
                       className="btn btn-outline-danger btn-sm"
                       onClick={() => {
-                        // setShowModal(true);
-                        // //kitapSil(book.id);
-                        // setSilinecekKitap(book.id);
-                        // setSilinecekKitapIsmi(book.name);
+                        setShowDeleteModal(true);
+                        //kitapSil(book.id);
+                        setSilinecekCategory(category.id);
+                        setSilinecekCategoryName(category.name);
                       }}
                     >
                       Delete
@@ -64,14 +81,14 @@ const ListCategories = () => {
           })}
         </tbody>
       </table>
-      {/* {showModal === true && (
+      {showDeleteModal === true && (
         <Modal
           aciklama={`Silmek istediğinize emin misiniz?`}
-          title={silinecekKitapIsmi}
-          onConfirm={() => kitapSil(silinecekKitap)}
-          onCancel={() => setShowModal(false)}
+          title={silinecekCategoryName}
+          onConfirm={() => categorySil(silinecekCategory)}
+          onCancel={() => setShowDeleteModal(false)}
         />
-      )} */}
+      )}
     </div>
   );
 };

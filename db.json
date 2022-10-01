@@ -27,27 +27,24 @@
       "author": "William Golding",
       "categoryId": "1",
       "isbn": ""
-    },
-    {
-      "id": 1663445754196,
-      "name": "dfgdf 1",
-      "author": "gjgh deneme",
-      "categoryId": "1",
-      "isbn": ""
     }
   ],
   "categories": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Roman"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Hikaye"
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "Deneme"
+    },
+    {
+      "id": 1664654215262,
+      "name": "Şiir"
     }
   ]
 }

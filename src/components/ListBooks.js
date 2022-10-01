@@ -71,7 +71,7 @@ const ListBooks = (props) => {
         <tbody>
           {booksState.books.map((book) => {
             const category = categoriesState.categories.find(
-              (cat) => cat.id === book.categoryId
+              (cat) => cat.id == book.categoryId
             );
             return (
               <tr key={book.id}>
