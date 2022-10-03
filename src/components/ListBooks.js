@@ -11,27 +11,19 @@ const ListBooks = (props) => {
   console.log(categoriesState);
   console.log("booksState", booksState);
 
-  //const [books, setBooks] = useState(null);
+  const [filteredBooks, setFilteredBooks] = useState(null);
   //const [categories, setCategories] = useState(null);
   const [didUpdate, setDidUpdate] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [silinecekKitap, setSilinecekKitap] = useState(null);
   const [silinecekKitapIsmi, setSilinecekKitapIsmi] = useState("");
+  const [searchText, setSearchText] = useState("");
   useEffect(() => {
-    // axios
-    //   .get("http://localhost:3004/books")
-    //   .then((resBook) => {
-    //     console.log(resBook);
-    //     setBooks(resBook.data);
-    //     // axios
-    //     //   .get("http://localhost:3004/categories")
-    //     //   .then((resCat) => {
-    //     //     setCategories(resCat.data);
-    //     //   })
-    //     //   .catch((err) => console.log("categories err", err));
-    //   })
-    //   .catch((err) => console.log("books err", err));
-  }, [didUpdate]);
+    const filtered = booksState.books.filter((item) =>
+      item.name.toLowerCase().includes(searchText)
+    );
+    setFilteredBooks(filtered);
+  }, [searchText]);
   const kitapSil = (id) => {
     console.log(`http://localhost:3004/books/${id}`);
     axios
@@ -44,12 +36,26 @@ const ListBooks = (props) => {
       })
       .catch((err) => console.log(err));
   };
-  if (booksState.success !== true || categoriesState.success !== true) {
+  if (
+    booksState.success !== true ||
+    categoriesState.success !== true ||
+    filteredBooks === null
+  ) {
     return <Loading />;
   }
   return (
     <div className="container my-5">
-      <div className="my-3 d-flex justify-content-end">
+      <div className="my-3 d-flex justify-content-between">
+        <div className="w-75">
+          <input
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+            placeholder="Aranacak kitap ismi..."
+            type="text"
+            className="form-control"
+            id="exampleInputEmail1"
+          />
+        </div>
         <Link to="/add-book" className="btn btn-primary">
           Kitap Ekle
         </Link>
@@ -69,7 +75,7 @@ const ListBooks = (props) => {
           </tr>
         </thead>
         <tbody>
-          {booksState.books.map((book) => {
+          {filteredBooks.map((book) => {
             const category = categoriesState.categories.find(
               (cat) => cat.id == book.categoryId
             );
@@ -96,7 +102,7 @@ const ListBooks = (props) => {
                       Delete
                     </button>
                     <Link
-                      to={`edit-book/${book.id}`}
+                      to={`/edit-book/${book.id}`}
                       className="btn btn-sm btn-outline-secondary"
                     >
                       Edit

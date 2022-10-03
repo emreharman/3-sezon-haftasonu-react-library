@@ -7,8 +7,8 @@ import axios from "axios";
 
 const ListCategories = () => {
   const dispatch = useDispatch();
-  const { categoriesState } = useSelector((state) => state);
-  console.log("catState", categoriesState);
+  const { categoriesState, booksState } = useSelector((state) => state);
+  console.log("booksState", booksState);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [silinecekCategory, setSilinecekCategory] = useState(null);
@@ -24,6 +24,13 @@ const ListCategories = () => {
       .then((res) => {
         console.log(res.data);
         dispatch({ type: "DELETE_CATEGORY", payload: id });
+        const booksHasCategory = booksState.books.filter(
+          (item) => item.categoryId == id
+        );
+        console.log("booksHasCategory", booksHasCategory);
+        booksHasCategory.map((item) =>
+          dispatch({ type: "DELETE_BOOK", payload: item.id })
+        );
       })
       .catch((err) => console.log("deleteCategoryErr", err));
   };
@@ -69,7 +76,7 @@ const ListCategories = () => {
                       Delete
                     </button>
                     <Link
-                      to={`edit-category/${category.id}`}
+                      to={`/edit-category/${category.id}`}
                       className="btn btn-sm btn-outline-secondary"
                     >
                       Edit
